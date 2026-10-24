@@ -37,7 +37,7 @@ app.post('/api/generate-review', async (c) => {
     if (!apiKey)
       return c.json({ error: 'Server misconfiguration: API key not set.', setupRequired: true }, 503)
 
-    const model = c.env.OPENROUTER_MODEL || 'meta-llama/llama-3.1-8b-instruct:free'
+    const model = c.env.OPENROUTER_MODEL || 'openrouter/auto'
     const starLabel = ['', 'Poor', 'Below Average', 'Average', 'Good', 'Excellent'][stars]
 
     const systemPrompt = `You are a review-writing assistant for a hair and beauty salon.
