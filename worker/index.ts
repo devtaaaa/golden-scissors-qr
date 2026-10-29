@@ -37,7 +37,8 @@ app.post('/api/generate-review', async (c) => {
     if (!apiKey)
       return c.json({ error: 'Server misconfiguration: API key not set.', setupRequired: true }, 503)
 
-    const model = c.env.OPENROUTER_MODEL || 'openrouter/auto'
+    const model = c.env.OPENROUTER_MODEL || 'nvidia/nemotron-3-ultra-550b-a55b:free'
+  // You can set OPENROUTER_MODEL in wrangler vars to choose a different model
     const starLabel = ['', 'Poor', 'Below Average', 'Average', 'Good', 'Excellent'][stars]
 
     const systemPrompt = `You are a review-writing assistant for a hair and beauty salon.
@@ -87,8 +88,10 @@ Customer answers:
       return c.json({ error: 'Could not generate review. Please try again.' }, 502)
     }
 
-    const data = (await apiRes.json()) as { choices?: Array<{ message: { content: string } }> }
-    const reviewText = data.choices?.[0]?.message?.content?.trim() || ''
+    const data = await apiRes.json()
+    console.log('[Review API] OpenRouter response data:', JSON.stringify(data))
+    const choices = (data as any).choices as Array<{ message: { content: string } }>
+    const reviewText = choices?.[0]?.message?.content?.trim() || ''
 
     if (!reviewText)
       return c.json({ error: 'Empty AI response. Please try again.' }, 502)

@@ -16,6 +16,8 @@ dist-ssr
 .env
 .env.local
 .env.*.local
+.dev.vars
+.dev.vars.*
 
 
 # Editor directories and files

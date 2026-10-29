@@ -8,5 +8,8 @@
   },
   "build": {
     "command": "npm run build"
+  },
+  "vars": {
+    "OPENROUTER_MODEL": "nvidia/nemotron-3-ultra-550b-a55b:free"
   }
 }
